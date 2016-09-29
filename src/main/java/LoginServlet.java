@@ -1,3 +1,5 @@
+import sun.misc.BASE64Encoder;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +26,7 @@ public class LoginServlet extends HttpServlet {
         if ((token==null )||token.isEmpty() ) {
             resp.sendError(403, "Unauthorized");
         } else {
-            resp.getOutputStream().println("{token :" + token + "");
+            resp.getOutputStream().println("{ \"token\" : \"" + token + "\"}");
         }
 
     }
@@ -39,15 +41,11 @@ public class LoginServlet extends HttpServlet {
 
 
         req.getSession().setAttribute("username", username);
-        req.getSession().setAttribute("token", (new Random()).toString());
+        req.getSession().setAttribute("token",
+                (new BASE64Encoder()).encode((username+password).getBytes())
+        );
 
-        String token = (String) req.getSession().getAttribute("token");
-
-        if ((token==null )||token.isEmpty() ) {
-            resp.sendError(403, "Unauthorized");
-        } else {
-            resp.getOutputStream().println("{token :" + token + "");
-        }
+        doGet(req, resp);
 
     }
 }
