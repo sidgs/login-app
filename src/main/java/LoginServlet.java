@@ -10,7 +10,7 @@ import java.util.Random;
 
 
 /**
- * Created by ayeluri on 9/28/2016.
+ * Created on 9/28/2016.
  */
 public class LoginServlet extends HttpServlet {
 
